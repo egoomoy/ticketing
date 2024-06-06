@@ -1,18 +1,12 @@
-package com.example.my.ticket.adapter.out.persistence;
+package com.example.my.ticket.application.port.out;
 
-import com.example.my.ticket.domain.BlackAndWhiteCombineOperator;
-import com.example.my.ticket.domain.BlackAndWhiteType;
-import com.example.my.ticket.domain.BookingBlackAndWhiteDto;
-import com.example.my.ticket.domain.UserResDto;
+import com.example.my.ticket.domain.*;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -20,8 +14,8 @@ public class EventBookingValidator {
     private final EventSequenceRepository eventSequenceRepository;
     private final EventBookingRepository eventBookingRepository;
 
-    public void validate(EventBooking eventBooking, UserResDto.UserInfo userInfo) {
-        validate(eventBooking, userInfo, getEventSequence(eventBooking));
+    public void validate(EventBooking eventBooking, UUID userId) {
+        validate(eventBooking, userId, getEventSequence(eventBooking));
     }
 
     /**
@@ -31,7 +25,7 @@ public class EventBookingValidator {
      * @param userInfo           유저 정보
      * @param eventSequence     차수 정보
      */
-    private void validate(EventBooking eventBooking, UserResDto.UserInfo userInfo, EventSequence eventSequence) {
+    private void validate(EventBooking eventBooking, UUID userId, EventSequence eventSequence) {
 //        if (eventBookingRepository.existsRegisterUser(userInfo.getUserNo(), eventSequence.getEventSequenceNo())) {
 //            // 기수강 신청 에러
 //            throw new BusinessCustomException("");
@@ -46,16 +40,16 @@ public class EventBookingValidator {
         }
 
         List<BookingBlackAndWhiteDto.GroupDto> blackAndWhiteList = getBookingBlackAndWhite(eventBooking);
-        boolean blackCondition = verifyBlackAndWhiteList(blackAndWhiteList, BlackAndWhiteType.BLACK, userInfo);
-        boolean whiteCondition = verifyBlackAndWhiteList(blackAndWhiteList, BlackAndWhiteType.WHITE, userInfo);
+//        boolean blackCondition = verifyBlackAndWhiteList(blackAndWhiteList, BlackAndWhiteType.BLACK, userInfo);
+//        boolean whiteCondition = verifyBlackAndWhiteList(blackAndWhiteList, BlackAndWhiteType.WHITE, userInfo);
 
         // 블랙 아닐 때 (false) -> 화리에 없으면 !white는 true => true 예외
         // 블랙 아닐 때 (false) -> 화리에 있으면 !white는 false => false
         // 블랙일 때 (true) -> 화리에 없으면 !white는 true => true 예외
         // 블랙일 때 (true) -> 화리에 있으면 !white는 false => true 예외
-        if (blackCondition || !whiteCondition) {
-            throw new RuntimeException("수강 신청 제약 대상자 입니다.");
-        }
+//        if (blackCondition || !whiteCondition) {
+//            throw new RuntimeException("수강 신청 제약 대상자 입니다.");
+//        }
     }
 
     /**

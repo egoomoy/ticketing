@@ -1,7 +1,7 @@
-package com.example.my.ticket.application.port.out;
+package com.example.my.ticket.adapter.out.persistence;
 
-import com.example.my.ticket.adapter.out.persistence.UserInfoModuleClient;
-import com.example.my.ticket.domain.UserResDto;
+import com.example.my.ticket.application.port.out.UserInfoModuleClient;
+import com.example.my.ticket.application.port.out.UserResDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

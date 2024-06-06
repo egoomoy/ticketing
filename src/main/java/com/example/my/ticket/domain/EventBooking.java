@@ -1,26 +1,19 @@
-package com.example.my.ticket.adapter.out.persistence;
+package com.example.my.ticket.domain;
 
 
-import com.example.my.ticket.application.service.PaymentEvent;
-import com.example.my.ticket.domain.UserResDto;
+import com.example.my.ticket.application.port.out.EventBookingValidator;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.context.ApplicationEventPublisher;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @NoArgsConstructor
 @Entity
 public class EventBooking {
-
-    @PostPersist
-    public void onPostPersist() {
-        PaymentEvent event = PaymentEvent.builder().userNo(this.userNo).build();
-        event.publish();
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,8 +34,8 @@ public class EventBooking {
     private LocalDateTime eventSequenceEndDate;
 
 
-    public void enroll(EventBookingValidator eventBookingValidator, UserResDto.UserInfo userInfo) {
-        eventBookingValidator.validate(this, userInfo);
+    public void enroll(EventBookingValidator eventBookingValidator, UUID userId) {
+        eventBookingValidator.validate(this, userId);
     }
 
     @Builder

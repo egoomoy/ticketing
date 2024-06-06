@@ -1,4 +1,4 @@
-package com.example.my.ticket.adapter.out.persistence;
+package com.example.my.ticket.domain;
 
 import jakarta.persistence.*;
 import lombok.Builder;

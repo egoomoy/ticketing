@@ -1,8 +1,8 @@
-package com.example.my.ticket.application.port.out;
+package com.example.my.ticket.adapter.out.persistence;
 
-import com.example.my.ticket.adapter.out.persistence.EventSequence;
-import com.example.my.ticket.adapter.out.persistence.EventSequenceJpaRepository;
-import com.example.my.ticket.adapter.out.persistence.EventSequenceRepository;
+import com.example.my.ticket.domain.EventSequence;
+import com.example.my.ticket.application.port.out.EventSequenceJpaRepository;
+import com.example.my.ticket.application.port.out.EventSequenceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

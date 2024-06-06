@@ -1,6 +1,7 @@
-package com.example.my.ticket.adapter.out.persistence;
+package com.example.my.ticket.domain;
 
 
+import com.example.my.ticket.domain.Event;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;

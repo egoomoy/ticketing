@@ -1,4 +1,4 @@
-package com.example.my.ticket.domain;
+package com.example.my.ticket.application.port.out;
 
 import com.example.my.config.EnumInterface;
 import lombok.Getter;

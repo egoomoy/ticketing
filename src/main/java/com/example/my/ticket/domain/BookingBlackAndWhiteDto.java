@@ -1,5 +1,8 @@
 package com.example.my.ticket.domain;
 
+import com.example.my.ticket.application.port.out.BlackAndWhiteCombineOperator;
+import com.example.my.ticket.application.port.out.BlackAndWhiteCombineType;
+import com.example.my.ticket.application.port.out.BlackAndWhiteType;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Builder;
 import lombok.Getter;

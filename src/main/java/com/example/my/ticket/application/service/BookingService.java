@@ -1,17 +1,13 @@
 package com.example.my.ticket.application.service;
 
-import com.example.my.config.kafka.EventPublisher;
 import com.example.my.config.redis.RedissonLock;
-import com.example.my.ticket.adapter.out.persistence.*;
+import com.example.my.ticket.application.port.in.BookingSaveReqDto;
 import com.example.my.ticket.application.port.in.BookingUseCase;
-import com.example.my.ticket.domain.BookingMapper;
-import com.example.my.ticket.domain.BookingSaveReqDto;
-import com.example.my.ticket.domain.UserResDto;
+import com.example.my.ticket.application.port.out.*;
+import com.example.my.ticket.domain.*;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.PostPersist;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,9 +25,6 @@ public class BookingService implements BookingUseCase {
     private final EventBookingValidator eventBookingValidator;
     private final EventBookingRepository eventBookingRepository;
 
-    private final EventPublisher eventPublisher;
-
-
     @RedissonLock(key = "#bookingSaveReqDto.eventSequenceId")
     @Transactional
     public void booking(BookingSaveReqDto bookingSaveReqDto) {
@@ -41,8 +34,11 @@ public class BookingService implements BookingUseCase {
         UserResDto.UserInfo userResDto = getByUserId(bookingSaveReqDto.getUserId());
         EventBooking entity = bookingMapper.toEntity(eventSequence, userResDto);
 
-        entity.enroll(eventBookingValidator, userResDto);
+        entity.enroll(eventBookingValidator, userResDto.getUserId());
         eventBookingRepository.save(entity);
+
+        PaymentEvent event = PaymentEvent.builder().userNo(entity.getUserNo()).key(entity.getEventSequence().getEventSequenceNo()).build();
+        event.publish();
     }
 
     private EventSequence getByEventSequenceId(UUID uuid) {

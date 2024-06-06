@@ -1,10 +1,15 @@
-package com.example.my.ticket.application.port.out;
+package com.example.my.ticket.adapter.out.persistence;
 
 
-import com.example.my.ticket.adapter.out.persistence.*;
 import com.example.my.ticket.domain.BookingBlackAndWhiteDto;
+import com.example.my.ticket.application.port.out.EventBookingJpaRepository;
+import com.example.my.ticket.application.port.out.EventBookingRepository;
+import com.example.my.ticket.domain.EventBooking;
+import com.example.my.ticket.domain.QBookingBlackAndWhiteCombiner;
 import com.example.my.ticket.domain.QBookingBlackAndWhiteDto_Combine;
 import com.example.my.ticket.domain.QBookingBlackAndWhiteDto_GroupDto;
+import com.example.my.ticket.domain.QBookingBlackAndWhiteGroup;
+import com.example.my.ticket.domain.QEventBooking;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;

@@ -1,7 +1,5 @@
-package com.example.my.ticket.adapter.out.persistence;
+package com.example.my.ticket.application.port.out;
 
-
-import com.example.my.ticket.domain.UserResDto;
 
 import java.util.Optional;
 import java.util.UUID;

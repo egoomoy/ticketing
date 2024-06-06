@@ -1,4 +1,4 @@
-package com.example.my.ticket.domain;
+package com.example.my.ticket.application.port.in;
 
 import lombok.Builder;
 import lombok.Getter;

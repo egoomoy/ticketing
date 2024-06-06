@@ -13,7 +13,7 @@ public class KafkaEventPublisher implements EventPublisher {
     public void publishEvent(AbstractEvent event) {
         KafkaTemplate kafkaTemplate = TicketApplication.applicationContext.getBean(KafkaTemplate.class);
         String json = this.toJson(event);
-        kafkaTemplate.send("custom-events", json);
+        kafkaTemplate.send("custom-events", String.valueOf(event.getKey()), json);
     }
 
     public String toJson(AbstractEvent event) {

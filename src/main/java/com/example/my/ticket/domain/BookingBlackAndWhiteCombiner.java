@@ -1,6 +1,6 @@
-package com.example.my.ticket.adapter.out.persistence;
+package com.example.my.ticket.domain;
 
-import com.example.my.ticket.domain.BlackAndWhiteCombineType;
+import com.example.my.ticket.application.port.out.BlackAndWhiteCombineType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

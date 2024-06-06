@@ -1,7 +1,7 @@
 package com.example.my.ticket.adapter.in.web;
 
 import com.example.my.ticket.application.port.in.BookingUseCase;
-import com.example.my.ticket.domain.BookingSaveReqDto;
+import com.example.my.ticket.application.port.in.BookingSaveReqDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

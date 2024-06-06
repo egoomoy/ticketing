@@ -1,7 +1,8 @@
-package com.example.my.ticket.domain;
+package com.example.my.ticket.application.service;
 
-import com.example.my.ticket.adapter.out.persistence.EventBooking;
-import com.example.my.ticket.adapter.out.persistence.EventSequence;
+import com.example.my.ticket.application.port.out.UserResDto;
+import com.example.my.ticket.domain.EventBooking;
+import com.example.my.ticket.domain.EventSequence;
 import org.springframework.stereotype.Component;
 
 @Component
