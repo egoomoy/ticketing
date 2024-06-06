@@ -1,5 +1,6 @@
 package com.example.my.ticket.application.service;
 
+import com.example.my.config.kafka.EventPublisher;
 import com.example.my.config.redis.RedissonLock;
 import com.example.my.ticket.adapter.out.persistence.*;
 import com.example.my.ticket.application.port.in.BookingUseCase;
@@ -7,8 +8,10 @@ import com.example.my.ticket.domain.BookingMapper;
 import com.example.my.ticket.domain.BookingSaveReqDto;
 import com.example.my.ticket.domain.UserResDto;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.PostPersist;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +28,9 @@ public class BookingService implements BookingUseCase {
     private final BookingMapper bookingMapper;
     private final EventBookingValidator eventBookingValidator;
     private final EventBookingRepository eventBookingRepository;
+
+    private final EventPublisher eventPublisher;
+
 
     @RedissonLock(key = "#bookingSaveReqDto.eventSequenceId")
     @Transactional

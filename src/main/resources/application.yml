@@ -35,3 +35,7 @@ spring:
         order_inserts: true
         order_updates: true
     show-sql: true
+
+kafka:
+  topic_prefix: local
+  url: localhost:9092

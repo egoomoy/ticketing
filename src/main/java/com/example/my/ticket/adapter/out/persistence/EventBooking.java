@@ -1,11 +1,13 @@
 package com.example.my.ticket.adapter.out.persistence;
 
 
+import com.example.my.ticket.application.service.PaymentEvent;
 import com.example.my.ticket.domain.UserResDto;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 
 import java.time.LocalDateTime;
 
@@ -13,6 +15,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 public class EventBooking {
+
+    @PostPersist
+    public void onPostPersist() {
+        PaymentEvent event = PaymentEvent.builder().userNo(this.userNo).build();
+        event.publish();
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "event_registration_no")
