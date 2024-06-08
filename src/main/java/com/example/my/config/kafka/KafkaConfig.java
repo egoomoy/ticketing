@@ -79,9 +79,14 @@ public class KafkaConfig {
                 .put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class)
                 .put(ConsumerConfig.GROUP_ID_CONFIG, "cms-module")
                 .put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest")
-                .put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, "5000")
-                .put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "5000")
-                .put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, true)
+                .put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, "10000") // 최대 poll 간격
+                .put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "10000") // 오토 커밋 간격
+                .put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, true) // 오토 커밋 활성화
+                .put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, 50) // 한 번의 poll에서 가져오는 최대 레코드 수
+                .put(ConsumerConfig.FETCH_MIN_BYTES_CONFIG, 50000) // 최소한 가져올 바이트 수
+                .put(ConsumerConfig.FETCH_MAX_WAIT_MS_CONFIG, 5000) // fetch.min.bytes를 기다리는 최대 시간
+                .put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, 20000) // 세션 타임아웃
+                .put(ConsumerConfig.HEARTBEAT_INTERVAL_MS_CONFIG, 5000) // 하트비트 인터벌
                 .put(ConsumerConfig.ISOLATION_LEVEL_CONFIG, "read_committed")
                 .build();
     }

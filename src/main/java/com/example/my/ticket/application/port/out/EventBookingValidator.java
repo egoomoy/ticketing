@@ -1,5 +1,6 @@
 package com.example.my.ticket.application.port.out;
 
+import com.example.my.ticket.application.service.EventSequenceService;
 import com.example.my.ticket.domain.*;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -11,20 +12,13 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class EventBookingValidator {
-    private final EventSequenceRepository eventSequenceRepository;
     private final EventBookingRepository eventBookingRepository;
+    private final EventSequenceService eventSequenceService;
 
     public void validate(EventBooking eventBooking, UUID userId) {
-        validate(eventBooking, userId, getEventSequence(eventBooking));
+        validate(eventBooking, userId, eventSequenceService.getByEventSequenceNo(eventBooking.getEventSequence().getEventSequenceNo()));
     }
 
-    /**
-     * todo: 수강 신청 제한 조건 추가 확인 필요
-     *
-     * @param eventBooking 수강 신청 정보
-     * @param userInfo           유저 정보
-     * @param eventSequence     차수 정보
-     */
     private void validate(EventBooking eventBooking, UUID userId, EventSequence eventSequence) {
 //        if (eventBookingRepository.existsRegisterUser(userInfo.getUserNo(), eventSequence.getEventSequenceNo())) {
 //            // 기수강 신청 에러
@@ -98,18 +92,10 @@ public class EventBookingValidator {
 
     /**
      * @param eventBooking 수강 신청 정보
-     * @return 차수 정보
-     */
-    private EventSequence getEventSequence(EventBooking eventBooking) {
-        return eventSequenceRepository.findById(eventBooking.getEventSequence().getEventSequenceNo()).orElseThrow(() -> new EntityNotFoundException("해당 차수가 없습니다."));
-    }
-
-    /**
-     * @param eventBooking 수강 신청 정보
      * @return 접근 제한 목록
      */
     private List<BookingBlackAndWhiteDto.GroupDto> getBookingBlackAndWhite(EventBooking eventBooking) {
-        EventSequence eventSequence = this.getEventSequence(eventBooking);
+        EventSequence eventSequence = eventSequenceService.getByEventSequenceNo(eventBooking.getEventSequence().getEventSequenceNo());
         return eventBookingRepository.getBlackAndWhiteByEventNo(eventSequence.getEvent().getEventNo());
     }
 

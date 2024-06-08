@@ -3,11 +3,13 @@ package com.example.my.ticket.application.service;
 import com.example.my.config.redis.RedissonLock;
 import com.example.my.ticket.application.port.in.BookingSaveReqDto;
 import com.example.my.ticket.application.port.in.BookingUseCase;
+import com.example.my.ticket.application.port.in.EventSequenceUseCase;
 import com.example.my.ticket.application.port.out.*;
 import com.example.my.ticket.domain.*;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +21,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class BookingService implements BookingUseCase {
 
-    private final EventSequenceRepository eventSequenceRepository;
+    private final EventSequenceUseCase eventSequenceUseCase;
     private final UserInfoModuleClient userInfoModuleClient;
     private final BookingMapper bookingMapper;
     private final EventBookingValidator eventBookingValidator;
@@ -28,7 +30,7 @@ public class BookingService implements BookingUseCase {
     @RedissonLock(key = "#bookingSaveReqDto.eventSequenceId")
     @Transactional
     public void booking(BookingSaveReqDto bookingSaveReqDto) {
-        EventSequence eventSequence = getByEventSequenceId(bookingSaveReqDto.getEventSequenceId());
+        EventSequence eventSequence = eventSequenceUseCase.getByEventSequenceId(bookingSaveReqDto.getEventSequenceId());
         eventSequence.decrease();
 
         UserResDto.UserInfo userResDto = getByUserId(bookingSaveReqDto.getUserId());
@@ -39,10 +41,6 @@ public class BookingService implements BookingUseCase {
 
         PaymentEvent event = PaymentEvent.builder().userNo(entity.getUserNo()).key(entity.getEventSequence().getEventSequenceNo()).build();
         event.publish();
-    }
-
-    private EventSequence getByEventSequenceId(UUID uuid) {
-        return eventSequenceRepository.findByEventSequenceId(uuid).orElseThrow(() -> new EntityNotFoundException("해당 차수가 없습니다."));
     }
 
     private UserResDto.UserInfo getByUserId(UUID uuid) {

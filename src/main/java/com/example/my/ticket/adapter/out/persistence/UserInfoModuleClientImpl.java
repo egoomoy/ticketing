@@ -4,6 +4,7 @@ import com.example.my.ticket.application.port.out.UserInfoModuleClient;
 import com.example.my.ticket.application.port.out.UserResDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;

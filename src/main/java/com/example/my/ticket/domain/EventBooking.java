@@ -20,7 +20,7 @@ public class EventBooking {
     @Column(name = "event_registration_no")
     private Long eventBookingNo;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "eventSequence_no")
     private EventSequence eventSequence;
 
